@@ -53,7 +53,7 @@ public class UserController {
         Integer rowsAffected = userService.deleteUser(id);
 
         if (rowsAffected > 0) {
-            ResponseEntity.status(04).build();
+            ResponseEntity.status(204).build();
         } else {
             return ResponseEntity.status(404).build();
         }
