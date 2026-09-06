@@ -24,7 +24,7 @@ public class AuthController {
        User user = userService.authUser(bodyUser.getEmail(), bodyUser.getPassword());
 
         if (user == null) return ResponseEntity.status(400).build();
-        
+
         return ResponseEntity.status(200).body(user);
     }
 }
