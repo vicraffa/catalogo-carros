@@ -84,6 +84,13 @@
     text-align: center;
 }
 
+.successMessage {
+    margin: 1rem 0.5rem 0rem 0.5rem;
+    color: #4ade80;
+    font-size: 0.875rem;
+    text-align: center;
+}
+
 .submitButton {
     width: 100%;
     margin-top: 1.5rem;
