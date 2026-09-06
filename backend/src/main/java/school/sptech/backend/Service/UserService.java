@@ -44,12 +44,6 @@ public class UserService {
         return found;
     }
 
-    /*public Boolean hasFoundByName (String name) {
-        Boolean found = userRepository.hasFoundByName(name);
-
-        return found;
-    }*/
-
     public Boolean hasFoundByEmail (String email) {
         Boolean found = userRepository.hasFoundByEmail(email);
 

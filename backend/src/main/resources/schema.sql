@@ -2,10 +2,82 @@ CREATE TABLE IF NOT EXISTS users(
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS vehicle (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    brand VARCHAR(255) NOT NULL,
+    model VARCHAR(255) NOT NULL,
+    `year` INT NOT NULL,
+    power INT NOT NULL,
+    plate VARCHAR(7),
+    `state` VARCHAR(10),
+    CONSTRAINT CK_STATE CHECK (`state` IN ('Novo', 'Usado')),
+    image_url VARCHAR(500)
+);
+
+CREATE TABLE IF NOT EXISTS fuel_type (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS vehicle_fuel_type (
+    vehicle_id INT NOT NULL,
+    fuel_type_id INT NOT NULL,
+    PRIMARY KEY (vehicle_id, fuel_type_id),
+    FOREIGN KEY (vehicle_id) REFERENCES vehicle(id) ON DELETE CASCADE,
+    FOREIGN KEY (fuel_type_id) REFERENCES fuel_type(id)
+);
+
+INSERT INTO fuel_type (name) VALUES
+('Gasolina comum'),
+('Gasolina aditivada'),
+('Gasolina premium'),
+('Etanol'),
+('Diesel'),
+('GNV'),
+('Eletrico');
 
 INSERT INTO users (name, email, password) VALUES
 ('victor', 'victor@email.com', 'victor123'),
 ('jullya', 'jullya@email.com', 'jullya123'),
 ('pedro', 'pedro@email.com', 'pedro123');
+
+INSERT INTO vehicle (brand, model, `year`, power, plate, `state`) VALUES
+('Volkswagen', 'Gol', 2022, 84, 'ABC1D23', 'Usado'),
+('Chevrolet', 'Onix', 2024, 116, 'XYZ9X99', 'Novo'),
+('Fiat', 'Palio', 2015, 75, 'MNO4E56', 'Usado'),
+('Toyota', 'Corolla', 2023, 177, 'QWE7R89', 'Usado'),
+('BYD', 'Dolphin', 2025, 95, 'KPL2M34', 'Novo');
+
+INSERT INTO vehicle_fuel_type (vehicle_id, fuel_type_id)
+SELECT vehicle.id, fuel_type.id
+FROM vehicle, fuel_type
+WHERE vehicle.plate = 'ABC1D23'
+  AND fuel_type.name IN ('Gasolina comum', 'Etanol');
+
+INSERT INTO vehicle_fuel_type (vehicle_id, fuel_type_id)
+SELECT vehicle.id, fuel_type.id
+FROM vehicle, fuel_type
+WHERE vehicle.plate = 'XYZ9X99'
+  AND fuel_type.name IN ('Gasolina comum', 'Etanol');
+
+INSERT INTO vehicle_fuel_type (vehicle_id, fuel_type_id)
+SELECT vehicle.id, fuel_type.id
+FROM vehicle, fuel_type
+WHERE vehicle.plate = 'MNO4E56'
+  AND fuel_type.name IN ('Gasolina comum', 'Etanol');
+
+INSERT INTO vehicle_fuel_type (vehicle_id, fuel_type_id)
+SELECT vehicle.id, fuel_type.id
+FROM vehicle, fuel_type
+WHERE vehicle.plate = 'QWE7R89'
+  AND fuel_type.name IN ('Gasolina comum', 'Etanol');
+
+INSERT INTO vehicle_fuel_type (vehicle_id, fuel_type_id)
+SELECT vehicle.id, fuel_type.id
+FROM vehicle, fuel_type
+WHERE vehicle.plate = 'KPL2M34'
+  AND fuel_type.name = 'Eletrico';
