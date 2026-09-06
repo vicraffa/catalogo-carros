@@ -1,0 +1,21 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      APP_UPLOAD_DIR: /app/uploads/vehicles
+    volumes:
+      - vehicle_uploads:/app/uploads/vehicles
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  vehicle_uploads:
