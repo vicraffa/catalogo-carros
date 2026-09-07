@@ -11,7 +11,6 @@ import school.sptech.backend.Service.VehicleService;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/vehicles")
 public class VehicleController {
     private final VehicleService vehicleService;

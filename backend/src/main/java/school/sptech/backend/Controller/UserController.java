@@ -10,7 +10,6 @@ import java.util.List;
 import static school.sptech.backend.Util.UserUtil.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
