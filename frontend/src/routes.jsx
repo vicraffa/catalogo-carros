@@ -1,8 +1,8 @@
 import { createBrowserRouter} from "react-router-dom";
-import Start from "./components/Start.jsx";
-import Signin from "./components/Signin.jsx";
-import Signup from "./components/Signup.jsx";
-import Catalogue from "./components/Catalogue.jsx";
+import Start from "./pages/Start.jsx";
+import Signin from "./pages/Signin.jsx";
+import Signup from "./pages/Signup.jsx";
+import Catalogue from "./pages/Catalogue.jsx";
 
 const router = createBrowserRouter([
     {

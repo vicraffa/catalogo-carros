@@ -29,6 +29,9 @@ export default function Signin() {
             const data = await response.json();
 
             console.log("Dados do usuário:", data);
+
+            localStorage.setItem("user", JSON.stringify(data));
+
             setSuccessMessage("Login bem-sucedido! Redirecionando...");
                     
             setTimeout(() => {    
@@ -49,13 +52,13 @@ export default function Signin() {
                 </div>
 
                 <div className={styles.fields}>
-                    <label className={styles.label}>
+                    <label className={sharedStyles.label}>
                         E-mail
-                        <input name="email" type="email" placeholder="seu@email.com" autoComplete="email" required className={styles.input} />
+                        <input name="email" type="email" placeholder="seu@email.com" autoComplete="email" required className={sharedStyles.input} />
                     </label>
-                    <label className={styles.label}>
+                    <label className={sharedStyles.label}>
                         Senha
-                        <input name="password" type="password" placeholder="Sua senha" autoComplete="current-password" required className={styles.input} />
+                        <input name="password" type="password" placeholder="Sua senha" autoComplete="current-password" required className={sharedStyles.input} />
                     </label>
                 </div>
 

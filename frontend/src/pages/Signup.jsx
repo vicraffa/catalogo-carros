@@ -57,17 +57,17 @@ export default function Signup() {
                 </div>
 
                 <div className={styles.fields}>
-                    <label className={styles.label}>Nome
-                        <input name="name" type="text" placeholder="Seu nome" autoComplete="name" required className={styles.input} />
+                    <label className={sharedStyles.label}>Nome
+                        <input name="name" type="text" placeholder="Seu nome" autoComplete="name" required className={sharedStyles.input} />
                     </label>
-                    <label className={styles.label}>E-mail
-                        <input name="email" type="email" placeholder="seu@email.com" autoComplete="email" required className={styles.input} />
+                    <label className={sharedStyles.label}>E-mail
+                        <input name="email" type="email" placeholder="seu@email.com" autoComplete="email" required className={sharedStyles.input} />
                     </label>
-                    <label className={styles.label}>Senha
-                        <input name="password" type="password" placeholder="Crie uma senha" autoComplete="new-password" required className={styles.input} />
+                    <label className={sharedStyles.label}>Senha
+                        <input name="password" type="password" placeholder="Crie uma senha" autoComplete="new-password" required className={sharedStyles.input} />
                     </label>
-                    <label className={styles.label}>Confirmar senha
-                        <input name="confirmPassword" type="password" placeholder="Repita sua senha" autoComplete="new-password" required className={styles.input} />
+                    <label className={sharedStyles.label}>Confirmar senha
+                        <input name="confirmPassword" type="password" placeholder="Repita sua senha" autoComplete="new-password" required className={sharedStyles.input} />
                     </label>
                 </div>
 
