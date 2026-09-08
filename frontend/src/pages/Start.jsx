@@ -12,7 +12,7 @@ export default function Start() {
     return (
         <div className={`${pageStyles.page} ${sharedStyles.pageTransition}`}>
             <h1 className={pageStyles.title}>
-                Catálogo de <span>Carros</span>
+                Catálogo de <span>Veículos</span>
             </h1>
             <button
                 type="button"

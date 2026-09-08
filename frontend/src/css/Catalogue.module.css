@@ -1,3 +1,12 @@
-h1 {
-    color: white
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    min-width: 80rem;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    background-color: #09090b;
+    color: #ffffff;
 }
