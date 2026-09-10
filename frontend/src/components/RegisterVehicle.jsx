@@ -5,9 +5,17 @@ import { postVehicle, postVehicleWithImage } from "../services/vehicleService.js
 
 export default function RegisterVehicle({ onVehicleRegistered }) {
     const [minimize, setMinimize] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     async function submitVehicle(event) {
         event.preventDefault();
+
+        if (isSubmitting) return;
+
+        setErrorMessage("");
+        setSuccessMessage("");
 
         const form = event.currentTarget;
         const formData = new FormData(form);
@@ -24,13 +32,55 @@ export default function RegisterVehicle({ onVehicleRegistered }) {
 
         const imageFile = formData.get("image");
 
-        if (imageFile && imageFile.size > 0) {
-            await postVehicleWithImage(vehicle, imageFile);
-        } else {
-            await postVehicle(vehicle);
+        if (vehicle.fuelTypes.length === 0) {
+            setErrorMessage("Selecione ao menos um tipo de combustível.   ");
+            return;
         }
 
-        form.reset();
+        if (imageFile && imageFile.name) {
+            if (imageFile.size === 0 || !["image/jpeg", "image/png", "image/webp"].includes(imageFile.type)) {
+                setErrorMessage("Selecione uma imagem válida em JPG, PNG ou WEBP.   ");
+                return;
+            }
+
+            if (imageFile.size > 5 * 1024 * 1024) {
+                setErrorMessage("A imagem deve ter no máximo 5 MB.   ");
+                return;
+            }
+        }
+
+        setIsSubmitting(true);
+
+        try {
+            const response = imageFile && imageFile.size > 0
+                ? await postVehicleWithImage(vehicle, imageFile)
+                : await postVehicle(vehicle);
+
+            if (!response.ok) {
+                const messages = {
+                    400: "Dados inválidos. Confira os campos do veículo e a imagem selecionada.   ",
+                    409: "Já existe um veículo cadastrado com essa placa.   ",
+                    413: "A imagem deve ter no máximo 5 MB.   ",
+                };
+
+                setErrorMessage(messages[response.status] || "Não foi possível cadastrar o veículo. Tente novamente.   ");
+                return;
+            }
+        } catch {
+            setErrorMessage("Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.   ");
+            return;
+        } finally {
+            setIsSubmitting(false);
+        }
+
+        setTimeout(() => {
+            form.reset();
+            setSuccessMessage("Veículo cadastrado com sucesso!   ");
+            
+            setMinimize(!minimize)
+        }, 1000);
+        setErrorMessage("");
+        setSuccessMessage("");
         onVehicleRegistered();
     }
 
@@ -67,8 +117,8 @@ export default function RegisterVehicle({ onVehicleRegistered }) {
                                 <option value="Usado">Usado</option>
                             </select>
                         </label>
-                        <label className={`${sharedStyles.label} ${styles.fullWidth}`}>URL da Imagem
-                            <input id="image" name="image" type="file" className={`${sharedStyles.input} ${styles.fileInput}`} />
+                        <label className={`${sharedStyles.label} ${styles.fullWidth}`}>Imagem (JPG, PNG ou WEBP, até 5 MB)
+                            <input id="image" name="image" type="file" accept="image/jpeg,image/png,image/webp" className={`${sharedStyles.input} ${styles.fileInput}`} />
                         </label>
                         <fieldset className={styles.fuelFieldset}>
                             <legend className={sharedStyles.label}>Tipo de combustível:</legend>
@@ -95,7 +145,19 @@ export default function RegisterVehicle({ onVehicleRegistered }) {
                         </fieldset>
                     </div>
                     <div className={styles.footer}>
-                        <button type="submit" className={`${sharedStyles.primaryButton} ${styles.submitButton}`}>Registrar</button>
+                        {errorMessage && (
+                            <p className={styles.errorMessage} role="alert">
+                                {errorMessage}
+                            </p>
+                        )}
+                        {successMessage && (
+                            <p className={styles.successMessage} role="status">
+                                {successMessage}
+                            </p>
+                        )}
+                        <button type="submit" disabled={isSubmitting} className={`${sharedStyles.primaryButton} ${styles.submitButton}`}>
+                            {isSubmitting ? "Registrando..." : "Registrar"}
+                        </button>
                     </div>
                 </form>
             )}
