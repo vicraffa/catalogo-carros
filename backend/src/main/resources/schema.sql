@@ -45,38 +45,10 @@ INSERT INTO users (name, email, password) VALUES
 ('pedro', 'pedro@email.com', 'pedro123');
 
 INSERT INTO vehicle (brand, model, `year`, power, plate, `state`, image_url) VALUES
-('Volkswagen', 'Gol', 2022, 84, 'ABC1D23', 'Usado', '/uploads/gol.jpg'),
-('Chevrolet', 'Onix', 2024, 116, 'XYZ9X99', 'Novo', ''),
-('Fiat', 'Palio', 2015, 75, 'MNO4E56', 'Usado', '/uploads/palio.jpg'),
-('Toyota', 'Corolla', 2023, 177, 'QWE7R89', 'Usado', '/uploads/corolla.jpg'),
-('BYD', 'Dolphin', 2025, 95, 'KPL2M34', 'Novo', '/uploads/dolphin.jpg');
-
-INSERT INTO vehicle_fuel_type (vehicle_id, fuel_type_id)
-SELECT vehicle.id, fuel_type.id
-FROM vehicle, fuel_type
-WHERE vehicle.plate = 'ABC1D23'
-  AND fuel_type.name IN ('Gasolina comum', 'Etanol');
+('Chevrolet', 'Onix', 2024, 116, 'XYZ9X99', 'Novo', '');
 
 INSERT INTO vehicle_fuel_type (vehicle_id, fuel_type_id)
 SELECT vehicle.id, fuel_type.id
 FROM vehicle, fuel_type
 WHERE vehicle.plate = 'XYZ9X99'
   AND fuel_type.name IN ('Gasolina comum', 'Etanol');
-
-INSERT INTO vehicle_fuel_type (vehicle_id, fuel_type_id)
-SELECT vehicle.id, fuel_type.id
-FROM vehicle, fuel_type
-WHERE vehicle.plate = 'MNO4E56'
-  AND fuel_type.name IN ('Gasolina comum', 'Etanol');
-
-INSERT INTO vehicle_fuel_type (vehicle_id, fuel_type_id)
-SELECT vehicle.id, fuel_type.id
-FROM vehicle, fuel_type
-WHERE vehicle.plate = 'QWE7R89'
-  AND fuel_type.name IN ('Gasolina comum', 'Etanol');
-
-INSERT INTO vehicle_fuel_type (vehicle_id, fuel_type_id)
-SELECT vehicle.id, fuel_type.id
-FROM vehicle, fuel_type
-WHERE vehicle.plate = 'KPL2M34'
-  AND fuel_type.name = 'Eletrico';
