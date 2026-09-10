@@ -14,7 +14,6 @@ CREATE TABLE IF NOT EXISTS vehicle (
     power INT NOT NULL,
     plate VARCHAR(7),
     `state` VARCHAR(10),
-    CONSTRAINT CK_STATE CHECK (`state` IN ('Novo', 'Usado')),
     image_url VARCHAR(500)
 );
 
@@ -45,12 +44,12 @@ INSERT INTO users (name, email, password) VALUES
 ('jullya', 'jullya@email.com', 'jullya123'),
 ('pedro', 'pedro@email.com', 'pedro123');
 
-INSERT INTO vehicle (brand, model, `year`, power, plate, `state`) VALUES
-('Volkswagen', 'Gol', 2022, 84, 'ABC1D23', 'Usado'),
-('Chevrolet', 'Onix', 2024, 116, 'XYZ9X99', 'Novo'),
-('Fiat', 'Palio', 2015, 75, 'MNO4E56', 'Usado'),
-('Toyota', 'Corolla', 2023, 177, 'QWE7R89', 'Usado'),
-('BYD', 'Dolphin', 2025, 95, 'KPL2M34', 'Novo');
+INSERT INTO vehicle (brand, model, `year`, power, plate, `state`, image_url) VALUES
+('Volkswagen', 'Gol', 2022, 84, 'ABC1D23', 'Usado', '/uploads/gol.jpg'),
+('Chevrolet', 'Onix', 2024, 116, 'XYZ9X99', 'Novo', ''),
+('Fiat', 'Palio', 2015, 75, 'MNO4E56', 'Usado', '/uploads/palio.jpg'),
+('Toyota', 'Corolla', 2023, 177, 'QWE7R89', 'Usado', '/uploads/corolla.jpg'),
+('BYD', 'Dolphin', 2025, 95, 'KPL2M34', 'Novo', '/uploads/dolphin.jpg');
 
 INSERT INTO vehicle_fuel_type (vehicle_id, fuel_type_id)
 SELECT vehicle.id, fuel_type.id

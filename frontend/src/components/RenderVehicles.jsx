@@ -1,77 +1,13 @@
 import styles from "../css/RenderVehicles.module.css";
+import { useState, useEffect } from "react";
+import { fetchVehicles } from "../services/vehicleService";
 
-export default function RenderVehicle() {
-    const listVehicles = [
-        {
-            "id": 1,
-            "brand": "Volkswagen",
-            "model": "Gol",
-            "year": 2022,
-            "power": 84,
-            "plate": "ABC1D23",
-            "state": "Usado",
-            "imageUrl": null,
-            "fuelTypes": [
-                "Gasolina comum",
-                "Etanol"
-            ]
-        },
-        {
-            "id": 2,
-            "brand": "Chevrolet",
-            "model": "Onix",
-            "year": 2024,
-            "power": 116,
-            "plate": "XYZ9X99",
-            "state": "Novo",
-            "imageUrl": null,
-            "fuelTypes": [
-                "Gasolina comum",
-                "Etanol"
-            ]
-        },
-        {
-            "id": 3,
-            "brand": "Fiat",
-            "model": "Palio",
-            "year": 2015,
-            "power": 75,
-            "plate": "MNO4E56",
-            "state": "Usado",
-            "imageUrl": null,
-            "fuelTypes": [
-                "Gasolina comum",
-                "Etanol"
-            ]
-        },
-        {
-            "id": 4,
-            "brand": "Toyota",
-            "model": "Corolla",
-            "year": 2023,
-            "power": 177,
-            "plate": "QWE7R89",
-            "state": "Usado",
-            "imageUrl": null,
-            "fuelTypes": [
-                "Gasolina comum",
-                "Etanol"
-            ]
-        },
-        {
-            "id": 5,
-            "brand": "BYD",
-            "model": "Dolphin",
-            "year": 2025,
-            "power": 95,
-            "plate": "KPL2M34",
-            "state": "Novo",
-            "imageUrl": null,
-            "fuelTypes": [
-                "Eletrico"
-            ]
-        }
-    ]
+export default function RenderVehicle({ refreshCount }) {
+    const [listVehicles, setVehicles] = useState([]);
+
+    useEffect(() => {
+        fetchVehicles().then((data) => setVehicles(data));
+    }, [refreshCount]);
 
     return (
         <section className={styles.section}>
@@ -83,7 +19,7 @@ export default function RenderVehicle() {
                             {vehicle.imageUrl ? (
                                 <img
                                     className={styles.image}
-                                    src={vehicle.imageUrl}
+                                    src={`http://localhost:8080${vehicle.imageUrl}`}
                                     alt={`${vehicle.brand} ${vehicle.model}`}
                                     loading="lazy"
                                 />

@@ -1,9 +1,38 @@
 import { useState } from "react";
 import styles from "../css/RegisterVehicle.module.css";
 import sharedStyles from "../css/Shared.module.css";
+import { postVehicle, postVehicleWithImage } from "../services/vehicleService.js";
 
-export default function RegisterVehicle() {
+export default function RegisterVehicle({ onVehicleRegistered }) {
     const [minimize, setMinimize] = useState(true);
+
+    async function submitVehicle(event) {
+        event.preventDefault();
+
+        const form = event.currentTarget;
+        const formData = new FormData(form);
+
+        const vehicle = {
+            brand: formData.get("brand"),
+            model: formData.get("model"),
+            plate: formData.get("plate"),
+            year: parseInt(formData.get("year"), 10),
+            power: parseInt(formData.get("power"), 10),
+            state: formData.get("state"),
+            fuelTypes: formData.getAll("fuel"),
+        };
+
+        const imageFile = formData.get("image");
+
+        if (imageFile && imageFile.size > 0) {
+            await postVehicleWithImage(vehicle, imageFile);
+        } else {
+            await postVehicle(vehicle);
+        }
+
+        form.reset();
+        onVehicleRegistered();
+    }
 
     return (
         <section className={styles.panel}>
@@ -14,7 +43,7 @@ export default function RegisterVehicle() {
                 </button>
             </div>
             {!minimize && (
-                <form className={styles.form}>
+                <form className={styles.form} onSubmit={submitVehicle}>
                     <div className={styles.fields}>
                         <label className={sharedStyles.label}>Marca
                             <input name="brand" type="text" placeholder="Marca" required className={sharedStyles.input} />
@@ -32,8 +61,8 @@ export default function RegisterVehicle() {
                             <input name="power" type="number" placeholder="Potência" required className={sharedStyles.input} />
                         </label>
                         <label className={sharedStyles.label}>Estado
-                            <select name="state" id="state" required className={`${sharedStyles.input} ${styles.select}`}>
-                                <option selected disabled>Selecione</option>
+                            <select name="state" id="state" defaultValue="" required className={`${sharedStyles.input} ${styles.select}`}>
+                                <option value="" disabled>Selecione</option>
                                 <option value="Novo">Novo</option>
                                 <option value="Usado">Usado</option>
                             </select>
@@ -45,13 +74,13 @@ export default function RegisterVehicle() {
                             <legend className={sharedStyles.label}>Tipo de combustível:</legend>
                             <div className={styles.fuelOptions}>
                                 <label className={styles.fuelOption}>
-                                    <input type="checkbox" name="fuel" value="Gasolina" /> Gasolina Comum
+                                    <input type="checkbox" name="fuel" value="Gasolina comum" /> Gasolina Comum
                                 </label>
                                 <label className={styles.fuelOption}>
-                                    <input type="checkbox" name="fuel" value="Gasolina" /> Gasolina Aditivada
+                                    <input type="checkbox" name="fuel" value="Gasolina aditivada" /> Gasolina Aditivada
                                 </label>
                                 <label className={styles.fuelOption}>
-                                    <input type="checkbox" name="fuel" value="Gasolina" /> Gasolina Premium
+                                    <input type="checkbox" name="fuel" value="Gasolina premium" /> Gasolina Premium
                                 </label>
                                 <label className={styles.fuelOption}>
                                     <input type="checkbox" name="fuel" value="Diesel" /> Diesel
@@ -60,13 +89,13 @@ export default function RegisterVehicle() {
                                     <input type="checkbox" name="fuel" value="GNV" /> GNV
                                 </label>
                                 <label className={styles.fuelOption}>
-                                    <input type="checkbox" name="fuel" value="Elétrico" /> Elétrico
+                                    <input type="checkbox" name="fuel" value="Eletrico" /> Elétrico
                                 </label>
                             </div>
                         </fieldset>
                     </div>
                     <div className={styles.footer}>
-                        <button className={`${sharedStyles.primaryButton} ${styles.submitButton}`}>Registrar</button>
+                        <button type="submit" className={`${sharedStyles.primaryButton} ${styles.submitButton}`}>Registrar</button>
                     </div>
                 </form>
             )}
