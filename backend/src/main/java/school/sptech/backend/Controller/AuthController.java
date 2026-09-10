@@ -6,7 +6,6 @@ import school.sptech.backend.Model.User;
 import school.sptech.backend.Service.UserService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/auth")
 public class AuthController {
     private final UserService userService;
@@ -24,7 +23,7 @@ public class AuthController {
        User user = userService.authUser(bodyUser.getEmail(), bodyUser.getPassword());
 
         if (user == null) return ResponseEntity.status(400).build();
-        
+
         return ResponseEntity.status(200).body(user);
     }
 }

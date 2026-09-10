@@ -14,7 +14,6 @@ CREATE TABLE IF NOT EXISTS vehicle (
     power INT NOT NULL,
     plate VARCHAR(7),
     `state` VARCHAR(10),
-    CONSTRAINT CK_STATE CHECK (`state` IN ('Novo', 'Usado')),
     image_url VARCHAR(500)
 );
 
@@ -45,39 +44,11 @@ INSERT INTO users (name, email, password) VALUES
 ('jullya', 'jullya@email.com', 'jullya123'),
 ('pedro', 'pedro@email.com', 'pedro123');
 
-INSERT INTO vehicle (brand, model, `year`, power, plate, `state`) VALUES
-('Volkswagen', 'Gol', 2022, 84, 'ABC1D23', 'Usado'),
-('Chevrolet', 'Onix', 2024, 116, 'XYZ9X99', 'Novo'),
-('Fiat', 'Palio', 2015, 75, 'MNO4E56', 'Usado'),
-('Toyota', 'Corolla', 2023, 177, 'QWE7R89', 'Usado'),
-('BYD', 'Dolphin', 2025, 95, 'KPL2M34', 'Novo');
-
-INSERT INTO vehicle_fuel_type (vehicle_id, fuel_type_id)
-SELECT vehicle.id, fuel_type.id
-FROM vehicle, fuel_type
-WHERE vehicle.plate = 'ABC1D23'
-  AND fuel_type.name IN ('Gasolina comum', 'Etanol');
+INSERT INTO vehicle (brand, model, `year`, power, plate, `state`, image_url) VALUES
+('Chevrolet', 'Onix', 2024, 116, 'XYZ9X99', 'Novo', '');
 
 INSERT INTO vehicle_fuel_type (vehicle_id, fuel_type_id)
 SELECT vehicle.id, fuel_type.id
 FROM vehicle, fuel_type
 WHERE vehicle.plate = 'XYZ9X99'
   AND fuel_type.name IN ('Gasolina comum', 'Etanol');
-
-INSERT INTO vehicle_fuel_type (vehicle_id, fuel_type_id)
-SELECT vehicle.id, fuel_type.id
-FROM vehicle, fuel_type
-WHERE vehicle.plate = 'MNO4E56'
-  AND fuel_type.name IN ('Gasolina comum', 'Etanol');
-
-INSERT INTO vehicle_fuel_type (vehicle_id, fuel_type_id)
-SELECT vehicle.id, fuel_type.id
-FROM vehicle, fuel_type
-WHERE vehicle.plate = 'QWE7R89'
-  AND fuel_type.name IN ('Gasolina comum', 'Etanol');
-
-INSERT INTO vehicle_fuel_type (vehicle_id, fuel_type_id)
-SELECT vehicle.id, fuel_type.id
-FROM vehicle, fuel_type
-WHERE vehicle.plate = 'KPL2M34'
-  AND fuel_type.name = 'Eletrico';
